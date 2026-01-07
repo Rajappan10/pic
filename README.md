@@ -15,16 +15,4 @@ The PIC16F877A microcontroller has three independent timers: Timer0 (8-bit), Tim
 
 ## ADC
 
-The PIC16F877A includes a built-in 10-bit ADC with 8 analog input channels (AN0–AN7) used to convert analog voltages (0 to VREF) into digital values from 0–1023. The ADC is controlled mainly by the ADCON0 and ADCON1 registers, which select the input channel, voltage reference, and result format. To use the ADC, the pin must be set as input, configured as analog, the ADC enabled, and a conversion started using the GO/DONE bit. After conversion, the digital result is read from ADRESH and ADRESL.
-
-## RESOLUTION
-
-The resolution of an ADC means the smallest change in analog input voltage that can be detected by the converter. It depends on the number of bits of the ADC. For example, a 10-bit ADC divides the input voltage range into 1024 (2¹⁰) discrete levels, so each step represents Vref ÷ 1024 volts. Higher resolution gives more accurate and precise digital representation of the analog signal.
-
-## SAMPLING RATE
-
-Sampling rate is the number of samples of an analog signal taken per second during analog-to-digital conversion, usually measured in samples per second (Hz or SPS). It determines how accurately a signal is represented in digital form; a higher sampling rate captures faster changes in the signal. To avoid aliasing, the sampling rate must be at least twice the highest frequency of the input signal.
-
-## QUANTIZATION
-
-Quantization is the process in analog-to-digital conversion where a continuous range of analog signal values is mapped into a finite number of discrete levels. Each sampled value is rounded to the nearest available level, which introduces a small error called quantization error. The number of quantization levels depends on the ADC resolution—higher resolution means smaller error and more accurate digital representation.
+The PIC16F877A has a built-in 10-bit ADC with 8 analog input channels (AN0–AN7) that converts analog voltages (0 to VREF) into digital values ranging from 0 to 1023, controlled by the ADCON0 and ADCON1 registers. The ADC resolution defines the smallest detectable voltage change, where a 10-bit ADC provides 1024 discrete levels (Vref/1024 per step). The sampling rate is the number of samples taken per second and must be at least twice the highest signal frequency to avoid aliasing. During conversion, quantization maps the continuous analog signal into discrete digital levels, introducing a small quantization error, which decreases with higher resolution.
