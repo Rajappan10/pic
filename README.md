@@ -9,7 +9,7 @@ Timer 0:An 8-bit timer/counter with a readable/writable register and a software-
 Timer 1:A 16-bit timer/counter, also supporting internal/external clocks and an optional external crystal oscillator for low-power timing.
 Timer 2:An 8-bit timer with programmable prescaler and postscaler, plus a period register (PR2) for flexible period setting and PWM generation. 
 Timer 0 is mainly used for creating time delay.
-It is mainly used for:
+* It is mainly used for:
 .generate accurate delays
 .create software timners
 Timer 1 is mainly used for precise timing and real-time operations.
