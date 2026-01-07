@@ -1,3 +1,8 @@
+# PIC16F877A
+
+
+
+
 The PIC16F877A is a popular, versatile, 8-bit Peripheral Interface Controller (PIC) microcontroller from Microchip Technology, known for its use in a wide range of embedded systems and educational projects due to its robust feature set and ease of use.
 The PIC16F877A microcontroller has three independent timers: Timer0 (8-bit), Timer1 (16-bit), and Timer2 (8-bit), which can function as timers, counters, or for PWM generation, offering versatile timing capabilities for various applications. 
 Timer 0:An 8-bit timer/counter with a readable/writable register and a software-programmable prescaler, supporting internal (FOSC/4) or external clock sources.
