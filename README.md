@@ -16,3 +16,17 @@ The PIC16F877A microcontroller has three independent timers: Timer0 (8-bit), Tim
 ## ADC
 
 The PIC16F877A has a built-in 10-bit ADC with 8 analog input channels (AN0–AN7) that converts analog voltages (0 to VREF) into digital values ranging from 0 to 1023, controlled by the ADCON0 and ADCON1 registers. The ADC resolution defines the smallest detectable voltage change, where a 10-bit ADC provides 1024 discrete levels (Vref/1024 per step). The sampling rate is the number of samples taken per second and must be at least twice the highest signal frequency to avoid aliasing. During conversion, quantization maps the continuous analog signal into discrete digital levels, introducing a small quantization error, which decreases with higher resolution.
+### code explaination
+ADCON0=0x81
+It is an 8 bit register.
+Here we use 32/fosc so the adcs1 is 10 value.
+chs2 chs1 chs0 is zero.
+G0/DONE is also zero initially.
+ADON is 1.
+ADCON1=0x80
+it is also an 8 bit register.
+ADFM is 1 becuase it is right justified.
+ADCS2 is 0 because 32/fosc.
+u has 2 bits and it is 0.
+PCFG has 4 bits and it has 0 value ofr every bit.
+Because all the inputs are analog.
