@@ -1,0 +1,80 @@
+ # master
+// CONFIG
+#pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator)
+#pragma config WDTE = ON        // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = ON       // Brown-out Reset Enable bit (BOR enabled)
+#pragma config LVP = ON         // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3/PGM pin has PGM function; low-voltage programming enabled)
+#pragma config CPD = OFF        // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT = OFF        // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP = OFF         // Flash Program Memory Code Protection bit (Code protection off)
+
+// #pragma config statements should precede project file includes.
+// Use project enums instead of #define for ON and OFF.
+
+
+#include <xc.h>
+#include <stdint.h>
+#define _XTAL_FREQ 16000000
+//--------------------------------
+// IO Pins Defines (Mappings)
+#define UP RB0
+#define Down RB1
+#define Send RB2
+//--------------------------------
+// Functions Declarations
+void UART_TX_Init(void);
+void UART_Write(uint8_t);
+//--------------------------------
+// Main Routine
+void main(void) 
+{
+  //--[ Peripherals & IO Configurations ]--
+  UART_TX_Init(); // Initialize The UART in Master Mode @ 9600bps
+  uint8_t Data = 0; // The Data Byte
+  TRISB = 0x07; // RB0, RB1 & RB2 Are Input Pins (Push Buttons)
+  TRISD = 0x00; // Output Port (4-Pins)
+  PORTD = 0x00; // Initially OFF
+  //---------------------------
+  while(1)
+  {
+    if (UP) // Increment The Data Value
+    {
+      Data++;
+      __delay_ms(250);
+    } 
+    if (Down) // Decrement The Data Value
+    {
+      Data--;
+      __delay_ms(250);
+    }
+    if (Send) // Send The Current Data Value Via UART
+    {
+      UART_Write(Data);
+      __delay_ms(250);
+    }
+    PORTD = Data; // Display The Current Data Value @ PORTD
+  } 
+  return;
+}
+//--------------------------------
+// Functions Definitions
+ 
+void UART_TX_Init(void)
+{
+  BRGH = 1;   // Set For High-Speed Baud Rate
+  SPBRG = 103; // Set The Baud Rate To Be 9600 bps
+  //--[ Enable The Ascynchronous Serial Port ]--
+  SYNC = 0;
+  SPEN = 1;
+  //--[ Set The RX-TX Pins to be in UART mode (not io) ]--
+  TRISC6 = 1;  // As stated in the datasheet
+  TRISC7 = 1;  // As stated in the datasheet
+  TXEN = 1; // Enable UART Transmission
+}
+ 
+void UART_Write(uint8_t data)
+{
+  while(!TRMT);
+  TXREG = data;
+}
