@@ -1,4 +1,4 @@
- # master
+MASTER
 // CONFIG
 #pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator)
 #pragma config WDTE = ON        // Watchdog Timer Enable bit (WDT enabled)
@@ -78,3 +78,78 @@ void UART_Write(uint8_t data)
   while(!TRMT);
   TXREG = data;
 }
+BRGH=1 is for high speed baud rate
+SPBRG=103 its for asynchronous type.In asynchronous the baud rate is high,but in synchronous it is low.
+sync=0 so it is asynchronous.
+spen=1 serial input enable
+txen=1 transmit enable pin
+
+SLAVE
+// CONFIG
+#pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator)
+#pragma config WDTE = ON        // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = ON       // Brown-out Reset Enable bit (BOR enabled)
+#pragma config LVP = ON         // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3/PGM pin has PGM function; low-voltage programming enabled)
+#pragma config CPD = OFF        // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT = OFF        // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP = OFF         // Flash Program Memory Code Protection bit (Code protection off)
+
+// #pragma config statements should precede project file includes.
+// Use project enums instead of #define for ON and OFF.
+
+#include <xc.h>
+#include <stdint.h>
+#define _XTAL_FREQ 16000000
+//--------------------------------
+// Functions Declarations
+void UART_RX_Init(void);
+uint8_t UART_Read(void);
+// Globals
+uint8_t UART_Buffer = 0;
+//--------------------------------
+// Main Routine
+void main(void)
+{
+  //--[ Peripherals & IO Configurations ]--
+  UART_RX_Init(); // Initialize The UART in Master Mode @ 9600bps
+  TRISB = 0x00; // Output Port (4-Pins)
+  PORTB = 0x00; // Initially OFF
+  //---------------------------
+  while(1) 
+  {
+    // Stay Idle, Everything is handled in the ISR !
+  }
+  return;
+}
+//--------------------------------
+// Functions Definitions
+ 
+void UART_RX_Init()
+{
+  BRGH = 1; // Set For High-Speed Baud Rate
+  SPBRG = 103; // Set The Baud Rate To Be 9600 bps
+  // Enable The Ascynchronous Serial Port
+  SYNC = 0;
+  SPEN = 1;
+  // Set The RX-TX Pins to be in UART mode (not io)
+  TRISC6 = 1; // As stated in the datasheet
+  TRISC7 = 1; // As stated in the datasheet
+  //--[ Enable UART Receiving Interrupts ]--
+  RCIE = 1; // UART Receving Interrupt Enable Bit
+  PEIE = 1; // Peripherals Interrupt Enable Bit
+  GIE = 1; // Global Interrupt Enable Bit
+  //------------------
+  CREN = 1; // Enable Data Continous Reception
+}
+ 
+void __interrupt() ISR (void)
+{
+  if (RCIF == 1)
+  {
+    UART_Buffer = RCREG; // Read The Received Data Buffer
+    PORTB = UART_Buffer; // Display The Received Data On LEDs
+    RCIF = 0; // Clear The Flag
+  }
+}
+same as before
