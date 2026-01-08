@@ -30,3 +30,9 @@ ADCS2 is 0 because 32/fosc.
 u has 2 bits and it is 0.
 PCFG has 4 bits and it has 0 value ofr every bit.
 Because all the inputs are analog.
+
+# UART
+
+## circuit diagram 
+<img width="590" height="348" alt="image" src="https://github.com/user-attachments/assets/9d5ec919-d977-434f-89fe-022617747053" />
+
