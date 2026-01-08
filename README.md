@@ -33,6 +33,8 @@ Because all the inputs are analog.
 
 # UART
 
+UART (Universal Asynchronous Receiver/Transmitter) is a serial communication protocol used to exchange data between devices using separate transmit (TX) and receive (RX) lines without a shared clock. It sends data asynchronously at an agreed baud rate and frame format (such as 8N1), and is commonly used in microcontrollers, debugging interfaces, and modules like GPS and Bluetooth.
+
 ## circuit diagram 
 <img width="590" height="348" alt="image" src="https://github.com/user-attachments/assets/9d5ec919-d977-434f-89fe-022617747053" />
 
